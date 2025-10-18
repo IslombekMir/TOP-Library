@@ -1,0 +1,41 @@
+table {
+    border-collapse: collapse; 
+    width: 100%; 
+    border: 1px solid black;
+}
+
+tr, td {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+button {
+    margin: 10px auto;
+    font-size: 2rem;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    background-color: rgb(10, 40, 160);
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(4px);
+}
+
+.form-wrapper {
+    border: 2px solid #ccc;
+    background-color: #fff;
+    padding: 10px;
+}
+
+form {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}
