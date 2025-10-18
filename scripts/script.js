@@ -1,6 +1,6 @@
 const myLibrary = [];
 
-function Book(title, author, pages) {
+function Book(title, author, pages, read) {
     if(!new.target) {
         throw Error("Please use the new keyword!")
     }
@@ -9,23 +9,24 @@ function Book(title, author, pages) {
     this.title = title;
     this.author = author;
     this.pages = pages;
+    this.read = read;
 }
 
-function addBookToLibrary(title, author, pages) {
-    let temporary = new Book(title, author, pages)
+function addBookToLibrary(title, author, pages, read) {
+    let temporary = new Book(title, author, pages, read);
     myLibrary.push(temporary)
 }
 
-addBookToLibrary("1984", "George Orwell", 200)
-addBookToLibrary("The Dark Night", "Cristopher Nolan", 2003)
-addBookToLibrary("Infinity War", "The Russo Brothers", 2018)
+addBookToLibrary("1984", "George Orwell", 200, true);
+addBookToLibrary("The Dark Night", "Cristopher Nolan", 2003, false);
+addBookToLibrary("Infinity War", "The Russo Brothers", 2018, false);
 
 const table = document.querySelector("table");
 
 function displayBooks() {
     table.innerHTML = "";
     let tableHeadings = document.createElement("tr");
-    tableHeadings.innerHTML = "<th>Id</th><th>Title</th><th>Author</th><th>Pages</th><th>Delete</th>"
+    tableHeadings.innerHTML = "<th>Id</th><th>Title</th><th>Author</th><th>Pages</th><th>Read</th><th>Edit</th>";
     table.appendChild(tableHeadings);
     
 
@@ -37,14 +38,20 @@ function displayBooks() {
             let td = document.createElement("td");
             td.innerHTML = detail;
             tr.appendChild(td);
-
-           
         }
+
+        let toggleReadBtn = document.createElement("button");
+        toggleReadBtn.textContent = "Read or Not";
+        toggleReadBtn.setAttribute("data-book-id", book.id)
+        toggleReadBtn.classList.add("toggle-read");
+
         let deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Delete"
         deleteBtn.setAttribute("data-book-id", book.id)
         deleteBtn.classList.add("delete-btn");
-        tr.appendChild(deleteBtn)
+        
+        tr.appendChild(deleteBtn);
+        tr.appendChild(toggleReadBtn);
         table.appendChild(tr)
     }
 }
@@ -65,7 +72,8 @@ submitBtn.addEventListener("click", e => {
     let title = document.getElementById("title").value;
     let author = document.getElementById("author").value;
     let pages = document.getElementById("pages").value;
-    addBookToLibrary(title, author, pages);
+    let read = false;
+    addBookToLibrary(title, author, pages, read);
     displayBooks();
 })
 
@@ -77,6 +85,12 @@ table.addEventListener("click", e => {
             myLibrary.splice(idx, 1);
             displayBooks();
         }
+    }
+    else if(e.target.classList.contains("toggle-read")) {
+        const bookId = e.target.dataset.bookId;
+        const idx = myLibrary.findIndex(book => book.id === bookId);
+        myLibrary[idx].read = !myLibrary[idx].read;
+        displayBooks();
     }
 })
 
