@@ -57,7 +57,7 @@ function displayBooks() {
 }
 
 
-const newBookBtn = document.querySelector("button");
+const newBookBtn = document.querySelector(".new-book-btn");
 const form = document.querySelector("form");
 const dialog = document.querySelector(".form-wrapper");
 
