@@ -36,7 +36,7 @@ function displayBooks() {
         for (let key in book) {
             let detail = book[key];
             let td = document.createElement("td");
-            td.innerHTML = detail;
+            td.innerHTML = detail == true ? "Read" : detail == false ? "Not Read" : detail;
             tr.appendChild(td);
         }
 
@@ -58,10 +58,11 @@ function displayBooks() {
 
 
 const newBookBtn = document.querySelector("button");
-const form = document.querySelector("form")
+const form = document.querySelector("form");
+const dialog = document.querySelector(".form-wrapper");
 
 newBookBtn.addEventListener("click", (e) => {
-    form.classList.add("visible")
+    dialog.show();
 })
 
 
@@ -93,6 +94,9 @@ table.addEventListener("click", e => {
         displayBooks();
     }
 })
+
+
+
 
 
 
