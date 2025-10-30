@@ -1,15 +1,28 @@
 const myLibrary = [];
 
-function Book(title, author, pages, read) {
-    if(!new.target) {
-        throw Error("Please use the new keyword!")
-    }
+// function Book(title, author, pages, read) {
+    
+    
+//     if(!new.target) {
+//         throw Error("Please use the new keyword!")
+//     }
 
-    this.id = crypto.randomUUID()
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
+//     this.id = crypto.randomUUID()
+//     this.title = title;
+//     this.author = author;
+//     this.pages = pages;
+//     this.read = read;
+// }
+
+
+class Book {
+    constructor(title, author, pages, read) {
+        this.id = crypto.randomUUID();
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+    }
 }
 
 function addBookToLibrary(title, author, pages, read) {
@@ -62,11 +75,17 @@ const form = document.querySelector("form");
 const dialog = document.querySelector(".form-wrapper");
 
 newBookBtn.addEventListener("click", (e) => {
-    dialog.show();
+    dialog.showModal();
 })
 
 
 const submitBtn = document.querySelector("#submit");
+const closeDialogBtn = document.getElementById("close-dialog");
+
+closeDialogBtn.addEventListener("click", (e) => {
+    dialog.close();
+})
+
 
 submitBtn.addEventListener("click", e => {
     e.preventDefault();
