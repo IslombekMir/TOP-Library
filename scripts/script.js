@@ -1,19 +1,5 @@
 const myLibrary = [];
 
-// function Book(title, author, pages, read) {
-    
-    
-//     if(!new.target) {
-//         throw Error("Please use the new keyword!")
-//     }
-
-//     this.id = crypto.randomUUID()
-//     this.title = title;
-//     this.author = author;
-//     this.pages = pages;
-//     this.read = read;
-// }
-
 
 class Book {
     constructor(title, author, pages, read) {
@@ -35,6 +21,15 @@ addBookToLibrary("The Dark Night", "Cristopher Nolan", 2003, false);
 addBookToLibrary("Infinity War", "The Russo Brothers", 2018, false);
 
 const table = document.querySelector("table");
+const submitBtn = document.querySelector("#submit");
+const closeDialogBtn = document.getElementById("close-dialog");
+const newBookBtn = document.querySelector(".new-book-btn");
+const form = document.querySelector("form");
+const dialog = document.querySelector(".form-wrapper");
+const title = document.getElementById("title");
+const author = document.getElementById("author");
+const pages = document.getElementById("pages");
+
 
 function displayBooks() {
     table.innerHTML = "";
@@ -70,29 +65,29 @@ function displayBooks() {
 }
 
 
-const newBookBtn = document.querySelector(".new-book-btn");
-const form = document.querySelector("form");
-const dialog = document.querySelector(".form-wrapper");
-
 newBookBtn.addEventListener("click", (e) => {
     dialog.showModal();
 })
 
 
-const submitBtn = document.querySelector("#submit");
-const closeDialogBtn = document.getElementById("close-dialog");
-
 closeDialogBtn.addEventListener("click", (e) => {
     dialog.close();
+    form.reset();
 })
 
 
-submitBtn.addEventListener("click", e => {
+form.addEventListener("submit", (e) => {
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
     e.preventDefault();
     let title = document.getElementById("title").value;
     let author = document.getElementById("author").value;
     let pages = document.getElementById("pages").value;
     let read = false;
+
+    closeDialogBtn.click();
     addBookToLibrary(title, author, pages, read);
     displayBooks();
 })
@@ -116,8 +111,58 @@ table.addEventListener("click", e => {
 
 
 
+//Form Validation
+title.addEventListener("input", (e) => {
+    title.setCustomValidity("");
+    if (title.validity.tooShort) {
+        title.setCustomValidity(`The title needs to be at least 10 characters. You have ${title.value.length} characters.`);
+    } else if (title.validity.tooLong) {
+        title.setCustomValidity("Title is too long.");
+    } else {
+        title.setCustomValidity("");
+    }
+})
 
+title.addEventListener("invalid", () => {
+    if (title.validity.valueMissing) {
+        title.setCustomValidity("Title cannot be empty.");
+    }
+})
 
+author.addEventListener("input", (e) => {
+    author.setCustomValidity("");
+
+    if (author.validity.tooShort) {
+        author.setCustomValidity(`The author name needs to be at least 10 characters. You have ${author.value.length} characters.`);
+    } else if (author.validity.tooLong) {
+        author.setCustomValidity("Author name is too long.");
+    } else {
+        author.setCustomValidity("");
+    }
+})
+
+author.addEventListener("invalid", (e) => {
+    if (author.validity.valueMissing) {
+        author.setCustomValidity("Author name cannot be empty.");
+    }
+})
+
+pages.addEventListener("input", (e) => {
+    pages.setCustomValidity("");
+    if (pages.validity.rangeUnderflow) {
+        pages.setCustomValidity("There needs to be at least 50 pages.");
+    } else if (pages.validity.rangeOverflow) {
+        pages.setCustomValidity("There needs to be under 2000 pages.");
+    } else {
+        pages.setCustomValidity("");
+    }
+})
+
+pages.addEventListener("invalid", () => {
+    if(pages.validity.valueMissing) {
+        pages.setCustomValidity("Pages cannot be empty.");
+    }
+})
 
 
 displayBooks();
